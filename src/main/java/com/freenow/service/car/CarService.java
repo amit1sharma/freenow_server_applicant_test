@@ -21,4 +21,6 @@ public interface CarService {
 
     @Transactional
     void updateRating(Long carId, BigDecimal rating) throws EntityNotFoundException;
+
+    List<CarDO> findAll();
 }

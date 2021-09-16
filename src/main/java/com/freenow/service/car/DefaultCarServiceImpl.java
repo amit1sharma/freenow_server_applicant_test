@@ -68,5 +68,10 @@ public class DefaultCarServiceImpl implements CarService {
         carDO.setRating(averageRating);
     }
 
+    @Override
+    public List<CarDO> findAll(){
+        return carRepository.findAll();
+    }
+
 
 }

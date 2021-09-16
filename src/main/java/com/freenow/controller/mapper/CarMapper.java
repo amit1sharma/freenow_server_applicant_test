@@ -23,7 +23,8 @@ public class CarMapper
             .setEngineType(carDO.getEngineType())
             .setLicensePlate(carDO.getLicensePlate())
             .setManufacturer(carDO.getManufacturer().getId())
-            .setSeatCount(carDO.getSeatCount());
+            .setSeatCount(carDO.getSeatCount())
+            .setMappedDriverId(carDO.getDriverDO()!=null?carDO.getDriverDO().getId():null);
 
         return carDTOBuilder.createCarDTO();
     }

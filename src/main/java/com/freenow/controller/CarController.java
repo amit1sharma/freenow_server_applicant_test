@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/cars")
+@RequestMapping("v1/cars")
 public class CarController {
 
     @Autowired
@@ -53,8 +53,13 @@ public class CarController {
         carService.updateRating(carId, rating);
     }
 
-    @GetMapping
+    /*@GetMapping
     public List<CarDTO> findCars(@RequestParam CarStatus carStatus) {
         return CarMapper.makeCarDTOList(carService.find(carStatus));
+    }*/
+
+    @GetMapping
+    public List<CarDTO> findCars(){
+        return CarMapper.makeCarDTOList(carService.findAll());
     }
 }

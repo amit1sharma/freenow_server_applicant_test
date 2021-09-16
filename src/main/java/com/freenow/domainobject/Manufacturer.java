@@ -7,7 +7,6 @@ import java.util.Set;
 @Table(name="car_manufacturer")
 public class Manufacturer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column

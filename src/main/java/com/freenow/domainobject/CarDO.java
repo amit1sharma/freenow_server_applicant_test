@@ -23,7 +23,6 @@ public class CarDO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="car_id")
     private Long Id;
 
     @Column(nullable = false)
@@ -45,7 +44,8 @@ public class CarDO {
 	@NotNull(message = "carStatus field is mandatory.")
     private CarStatus carStatus;
 
-    private Boolean convertible=false;
+    @Column(nullable = false)
+    private boolean convertible=false;
     
     @Column(nullable=true,scale=1)
     @Min(1) @Max(5)
@@ -58,17 +58,17 @@ public class CarDO {
 //    @Column(nullable = false)
     @NotNull(message="Car manufacturer cannot be null!")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manu_id")
+	@JoinColumn(name = "manufacturer")
     private Manufacturer manufacturer;
 
     @Column(nullable = false)
     private Boolean deleted = false;
 
     @Column
-    private long numberOfRating;
+    private Long numberOfRating;
 
     @OneToOne(mappedBy = "carDO", fetch = FetchType.LAZY)
-    private DriverExtendedDO driverExtendedDO;
+    private DriverDO driverDO;
 
     private CarDO(){
     }
@@ -151,11 +151,11 @@ public class CarDO {
 		this.numberOfRating = numberOfRating;
 	}
 
-	public DriverExtendedDO getDriverExtendedDO() {
-		return driverExtendedDO;
+	public DriverDO getDriverDO() {
+		return driverDO;
 	}
 
-	public void setDriverExtendedDO(DriverExtendedDO driverExtendedDO) {
-		this.driverExtendedDO = driverExtendedDO;
+	public void setDriverDO(DriverDO driverDO) {
+		this.driverDO = driverDO;
 	}
 }

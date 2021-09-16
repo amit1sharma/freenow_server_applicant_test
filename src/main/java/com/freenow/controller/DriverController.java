@@ -2,25 +2,23 @@ package com.freenow.controller;
 
 import com.freenow.controller.mapper.DriverMapper;
 import com.freenow.datatransferobject.DriverDTO;
+import com.freenow.domainobject.CarDO;
 import com.freenow.domainobject.DriverDO;
+import com.freenow.domainvalue.CarStatus;
 import com.freenow.domainvalue.OnlineStatus;
+import com.freenow.exception.CarAlreadyInUseException;
 import com.freenow.exception.ConstraintsViolationException;
 import com.freenow.exception.EntityNotFoundException;
+import com.freenow.exception.ProhibitedOperationException;
+import com.freenow.service.car.CarService;
+import com.freenow.service.driver.CarMapperDriverService;
 import com.freenow.service.driver.DriverService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * All operations with a driver will be routed by this controller.
@@ -31,7 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class DriverController
 {
 
+    @Autowired
+    private CarMapperDriverService carMapperDriverService;
     private final DriverService driverService;
+    @Autowired
+    private CarService carService;
 
 
     @Autowired
@@ -76,6 +78,19 @@ public class DriverController
     @GetMapping
     public List<DriverDTO> findDrivers(@RequestParam OnlineStatus onlineStatus)
     {
-        return DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
+        List<DriverDTO> lst = DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
+        return lst;
     }
+    @PatchMapping("/{driverId}")
+    public ResponseEntity<DriverDTO> mapUnMapCar(@Valid @PathVariable long driverId, @RequestParam long carId, @RequestParam CarStatus action)
+            throws ConstraintsViolationException, EntityNotFoundException, CarAlreadyInUseException, ProhibitedOperationException
+    {
+        DriverDO driverDO=null;
+        if(action==CarStatus.MAP)
+            driverDO = carMapperDriverService.mapCar(driverId, carId);
+        else
+            driverDO= carMapperDriverService.unMapCar(driverId, carId);
+        return new ResponseEntity<>(DriverMapper.makeDriverDTO(driverDO), HttpStatus.ACCEPTED);
+    }
+
 }

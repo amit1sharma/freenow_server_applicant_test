@@ -31,11 +31,14 @@ public class CarDTO
     
     private Boolean convertible=false;
 
+    private Long mappedDriverId;
+
+
     private CarDTO()
     {
     }
 
-	public CarDTO(Long id, String licensePlate, int seatCount, EngineType engineType, Long manufacturer, BigDecimal rating, Boolean convertible) {
+	public CarDTO(Long id, String licensePlate, int seatCount, EngineType engineType, Long manufacturer, BigDecimal rating, Boolean convertible, Long mappedDriverId) {
 		this.id = id;
 		this.licensePlate = licensePlate;
 		this.seatCount = seatCount;
@@ -43,6 +46,7 @@ public class CarDTO
 		this.manufacturerId = manufacturer;
 		this.rating = rating;
 		this.convertible = convertible;
+		this.mappedDriverId = mappedDriverId;
 	}
 
     @JsonProperty
@@ -79,6 +83,14 @@ public class CarDTO
 		return convertible;
 	}
 
+	public Long getMappedDriverId() {
+		return mappedDriverId;
+	}
+
+	public void setMappedDriverId(Long mappedDriverId) {
+		this.mappedDriverId = mappedDriverId;
+	}
+
 	public static CarDTOBuilder newBuilder()
 	{
 		return new CarDTOBuilder();
@@ -93,6 +105,7 @@ public class CarDTO
 		private Long manufacturerId;
 		private BigDecimal rating;
 		private Boolean convertible;
+		private Long mappedDriverId;
 
 
 		public CarDTOBuilder setId(Long id)
@@ -130,9 +143,13 @@ public class CarDTO
 			this.convertible = convertible;
 			return this;
 		}
+		public CarDTOBuilder setMappedDriverId(Long driverId){
+			this.mappedDriverId = driverId;
+			return this;
+		}
 
 		public CarDTO createCarDTO() {
-			return new CarDTO(id, licensePlate, seatCount, engineType, manufacturerId, rating, convertible);
+			return new CarDTO(id, licensePlate, seatCount, engineType, manufacturerId, rating, convertible, mappedDriverId);
 		}
 
 	}
