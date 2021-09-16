@@ -4,6 +4,7 @@ import com.freenow.domainobject.CarDO;
 import com.freenow.domainvalue.CarStatus;
 import com.freenow.exception.ConstraintsViolationException;
 import com.freenow.exception.EntityNotFoundException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -23,4 +24,6 @@ public interface CarService {
     void updateRating(Long carId, BigDecimal rating) throws EntityNotFoundException;
 
     List<CarDO> findAll();
+
+    List<CarDO> findAllWithSpec(Specification<CarDO> spec);
 }

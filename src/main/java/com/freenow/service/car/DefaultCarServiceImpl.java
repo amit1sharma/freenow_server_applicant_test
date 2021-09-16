@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +72,11 @@ public class DefaultCarServiceImpl implements CarService {
     @Override
     public List<CarDO> findAll(){
         return carRepository.findAll();
+    }
+
+    @Override
+    public List<CarDO> findAllWithSpec(Specification<CarDO> spec){
+        return carRepository.findAll(spec);
     }
 
 

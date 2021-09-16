@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,6 +125,11 @@ public class DefaultDriverService implements DriverService
     {
         return driverRepository.findById(driverId)
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+    }
+
+    @Override
+    public List<DriverDO> findAllBySpec(Specification<DriverDO> spec){
+        return driverRepository.findAll(spec);
     }
 
 }
